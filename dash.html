@@ -1,0 +1,121 @@
+<!-- Interactive Student & Faculty Dashboard -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - InnovateX</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            display: flex;
+            position: relative;
+        }
+        /* Background logo styling */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('your-logo.png') no-repeat center center;
+            background-size: 40%;
+            opacity: 0.1;
+            z-index: -1;
+        }
+        .sidebar { width: 250px; background: rgba(0, 0, 0, 0.8); color: white; height: 100vh; padding: 20px; position: fixed; transition: width 0.3s; }
+        .sidebar h2 { text-align: center; margin-bottom: 30px; }
+        .sidebar ul { list-style: none; padding: 0; }
+        .sidebar ul li { padding: 10px; cursor: pointer; transition: 0.3s; border-radius: 5px; }
+        .sidebar ul li:hover { background: rgba(255, 255, 255, 0.2); }
+        .content { margin-left: 260px; padding: 20px; width: 100%; }
+        .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
+        .hamburger { font-size: 24px; cursor: pointer; display: none; }
+        .project-list { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 20px; }
+        .project-card { background: white; color: black; padding: 15px; border-radius: 8px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); width: calc(33.33% - 10px); transition: transform 0.3s; }
+        .project-card:hover { transform: scale(1.05); }
+        .btn { padding: 10px 15px; border: none; cursor: pointer; border-radius: 5px; font-size: 14px; margin-top: 10px; transition: 0.3s; }
+        .btn-primary { background: #ffcc00; color: black; }
+        .btn-primary:hover { background: #e6b800; }
+        .upload-modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; color: black; padding: 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); }
+        .upload-options { display: flex; flex-direction: column; gap: 10px; }
+        .btn-close { background: red; color: white; padding: 5px; border: none; cursor: pointer; border-radius: 5px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; color: black; border-radius: 8px; overflow: hidden; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #2a5298; color: white; }
+        @media (max-width: 768px) {
+            .sidebar { width: 0; overflow: hidden; }
+            .hamburger { display: block; }
+            .content { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <h2>InnovateX</h2>
+        <ul>
+            <li onclick="loadDashboard('student')">📂 My Projects</li>
+            <li onclick="loadDashboard('faculty')">👨‍🏫 Enrolled Students</li>
+            <li onclick="openUploadModal()">➕ Upload Project</li>
+            <li>⚙️ Settings</li>
+            <li>🔓 Logout</li>
+        </ul>
+    </div>
+    <div class="content">
+        <div class="top-bar">
+            <span class="hamburger" onclick="toggleSidebar()">☰</span>
+            <h2 id="dashboardTitle">Student Dashboard</h2>
+        </div>
+        <div id="student-view">
+            <h3>📂 Projects</h3>
+            <div class="project-list" id="projectList"></div>
+        </div>
+        <div id="faculty-view" style="display: none;">
+            <h3>📌 Enrolled Students</h3>
+            <table>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Project Title</th>
+                    <th>Progress</th>
+                </tr>
+                <tr>
+                    <td>John Doe</td>
+                    <td>AI Chatbot</td>
+                    <td>In Progress</td>
+                </tr>
+                <tr>
+                    <td>Jane Smith</td>
+                    <td>Blockchain Voting System</td>
+                    <td>Completed</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+    <script>
+        function toggleSidebar() {
+            let sidebar = document.getElementById("sidebar");
+            sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
+        }
+        
+        function openUploadModal() {
+            document.getElementById("uploadModal").style.display = "block";
+        }
+        
+        function closeUploadModal() {
+            document.getElementById("uploadModal").style.display = "none";
+        }
+        
+        function loadDashboard(userType) {
+            document.getElementById("student-view").style.display = userType === "student" ? "block" : "none";
+            document.getElementById("faculty-view").style.display = userType === "faculty" ? "block" : "none";
+            document.getElementById("dashboardTitle").innerText = userType === "faculty" ? "Faculty Dashboard" : "Student Dashboard";
+        }
+        
+        loadDashboard("student");
+    </script>
+</body>
+</html>

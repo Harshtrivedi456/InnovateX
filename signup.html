@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - InnovateX</title>
+    <title>Sign Up - InnovateX</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
         body {
@@ -11,7 +11,7 @@
             color: white;
             font-family: 'Poppins', sans-serif;
         }
-        .login-container {
+        .signup-container {
             width: 400px;
             margin: 100px auto;
             padding: 30px;
@@ -23,25 +23,21 @@
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <h2>Login to InnovateX</h2>
-        <form onsubmit="event.preventDefault(); redirectToDashboard();">
+    <div class="signup-container">
+        <h2>Create an Account</h2>
+        <form>
+            <div class="mb-3">
+                <input type="text" class="form-control" placeholder="Full Name" required>
+            </div>
             <div class="mb-3">
                 <input type="email" class="form-control" placeholder="Email" required>
             </div>
             <div class="mb-3">
                 <input type="password" class="form-control" placeholder="Password" required>
             </div>
-            <button type="submit" class="btn btn-primary w-100">Login</button>
+            <button type="submit" class="btn btn-primary w-100">Sign Up</button>
         </form>
-        
-        <script>
-            function redirectToDashboard() {
-                window.location.href = "dash.html";
-            }
-        </script>
-        
-        <p class="mt-3">Don't have an account? <a href="signup.html">Sign Up</a></p>
+        <p class="mt-3">Already have an account? <a href="login.html">Login</a></p>
     </div>
 </body>
 </html>

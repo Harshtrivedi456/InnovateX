@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InnovateX - Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f4f4f4;
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #2a5298;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            padding: 12px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .sidebar ul li:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            width: 100%;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            padding: 15px 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .dashboard-header h2 {
+            color: #2a5298;
+        }
+
+        .content-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .project-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .project-card {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            width: 45%;
+        }
+
+        .project-card h3 {
+            margin-bottom: 8px;
+            color: #2a5298;
+        }
+
+        .project-card p {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .btn-primary {
+            background: #2a5298;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #ccc;
+        }
+
+    </style>
+</head>
+<body>
+    
+    <!-- Sidebar for Navigation -->
+    <div class="sidebar">
+        <h2>InnovateX</h2>
+        <ul>
+            <li onclick="showSection('student-dashboard')">Student Dashboard</li>
+            <!-- <li onclick="showSection('faculty-dashboard')">Faculty Dashboard</li> -->
+            <li onclick="loadDashboard('faculty')">👨‍🏫 Enrolled Students</li>
+            <li onclick="logout()">Logout</li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="dashboard-header">
+            <h2>Welcome to InnovateX</h2>
+        </div>
+
+        <!-- Student Dashboard -->
+        <div id="student-dashboard" class="content-section">
+            <h3>📂 My Projects</h3>
+            <div class="project-list">
+                <div class="project-card">
+                    <h3>AI-based Chatbot</h3>
+                    <p>Status: In Progress</p>
+                    <button class="btn btn-primary">Edit</button>
+                    <button class="btn btn-secondary">Delete</button>
+                </div>
+                <div class="project-card">
+                    <h3>Smart Attendance System</h3>
+                    <p>Status: Completed</p>
+                    <button class="btn btn-primary">Edit</button>
+                    <button class="btn btn-secondary">Delete</button>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="uploadProject()">Upload New Project</button>
+        </div>
+
+        <!-- Faculty Dashboard -->
+        <div id="faculty-dashboard" class="content-section" style="display: none;">
+            <h3>📌 Faculty Project Approvals</h3>
+            <div class="project-list">
+                <div class="project-card">
+                    <h3>Blockchain Voting System</h3>
+                    <p>Submitted by: John Doe</p>
+                    <button class="btn btn-primary">Approve</button>
+                    <button class="btn btn-secondary">Reject</button>
+                </div>
+                <div class="project-card">
+                    <h3>IoT Smart Farming</h3>
+                    <p>Submitted by: Jane Smith</p>
+                    <button class="btn btn-primary">Approve</button>
+                    <button class="btn btn-secondary">Reject</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="top-bar">
+            <span class="hamburger" onclick="toggleSidebar()">☰</span>
+            <h2 id="dashboardTitle">Student Dashboard</h2>
+        </div>
+        <div id="student-view">
+            <h3>📂 Projects</h3>
+            <div class="project-list" id="projectList"></div>
+        </div>
+        <div id="faculty-view" style="display: none;">
+            <h3>📌 Enrolled Students</h3>
+            <table>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Project Title</th>
+                    <th>Progress</th>
+                </tr>
+                <tr>
+                    <td>John Doe</td>
+                    <td>AI Chatbot</td>
+                    <td>In Progress</td>
+                </tr>
+                <tr>
+                    <td>Jane Smith</td>
+                    <td>Blockchain Voting System</td>
+                    <td>Completed</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script>
+        function showSection(sectionId) {
+            document.getElementById('student-dashboard').style.display = 'none';
+            document.getElementById('faculty-dashboard').style.display = 'none';
+
+            document.getElementById(sectionId).style.display = 'block';
+        }
+
+        function uploadProject() {
+            alert('Redirect to project upload form (to be implemented)');
+        }
+
+        function logout() {
+            alert('Logging out...');
+            window.location.href = 'login.html';
+        }
+    </script>
+
+</body>
+</html>
